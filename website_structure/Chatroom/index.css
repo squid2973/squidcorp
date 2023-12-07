@@ -9,5 +9,8 @@
 }
 
 button {
-    tab-size: 48px;
+    height:30px;
+    width:auto;
+    font-size:18px;
+    margin-right:70%;
 }
