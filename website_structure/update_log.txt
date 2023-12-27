@@ -3,6 +3,8 @@ timestamp: 22:09 12/6/2023 PST
   local disk save: true
       github push: true
 FTP server update: true
+Summary:
+(N/A)
 Comments:
 I got COVID-19. And it sucks. Nawwww
 
@@ -12,5 +14,17 @@ timestamp: 12:13 12/7/2023 PST
   local disk save: true
       github push: true
 FTP server update: true
+Summary:
+(N/A)
 Comments:
 Lego Fortnite is Good!!!!!! Still got COVID,,,
+
+v.0.3.1
+timestamp: 22:55 12/26/2023 PST
+  local disk save: true
+      github push: true
+FTP server update: true
+Summary:
+    Added Directory
+Comments:
+    Going to Japan in 2 days! Excited.
