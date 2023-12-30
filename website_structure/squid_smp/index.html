@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Squid SMP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #status {
+            margin-top: 0px;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .online {
+            color: green;
+
+        }
+
+        .offline {
+            color: red;
+
+        }
+
+        #caption {
+            margin-left: 10%;
+        }
+
+        button {
+            tab-size: 48px;
+            
+                height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Squid SMP</h1>
+    <p id='caption'>Hosted by Squid Corp.</p>
+    <hr>
+    <button onclick="window.location.href='/';">
+        Back to Home
+    </button>
+        <button onclick="window.location.href='/squid_smp/application.html';">
+        Apply for Squid SMP
+    </button>
+        <button onclick="window.location.href='/squid_smp/members.html';">
+        View Members
+    </button>
+        <button onclick="window.location.href='/squid_smp/more_info.html';">
+        More Info
+    </button>
+    <hr>
+    <h3>Live Server Status</h3>
+    <div id="status">Checking server status...</div>
+    <hr>
+
+    <script>
+        const serverIp = 'squid_smp.aternos.me';
+        const serverPort = 54259;
+        const statusElement = document.getElementById('status');
+
+        function checkServerStatus() {
+            const url = `https://api.minetools.eu/ping/${serverIp}/${serverPort}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.online) {
+                        statusElement.innerHTML = `Server is <span class="online">online</span> - ${data.players.now} players online`;
+                    } else {
+                        statusElement.innerHTML = `<span class="offline">Server is offline</span>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching server status:', error);
+                    statusElement.innerHTML = `<span class="offline">Error: Unable to fetch server status</span>`;
+                });
+        }
+
+        // Call the function initially and set an interval to periodically check the status
+        checkServerStatus();
+        setInterval(checkServerStatus, 5000); // Check every 5 seconds
+    </script>
+
+</body></html>

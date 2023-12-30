@@ -1,0 +1,19 @@
+{
+  "InvalidPassword": "間違ったパスワードです。",
+  "InvalidAmount": "有効な番号を入力してください。",
+  "NewItemAdded": "New item added to Allowance List!",
+  "ResetDataConfirmation": "全データをリセットします。よろしいですか？",
+  "DataReset": "全データがリセットされました、.",
+  "EnterNewPassword": "Enter a new password:",
+  "PasswordSet": "Password set successfully!",
+  "PasswordAlreadySet": "Password has already been set. To change it, use the \"Reset Data\" button.",
+  "EnterAmountLabel": "Enter Amount (in yen):",
+  "EnterCommentLabel": "Enter Comment:",
+  "EnterPasswordLabel": "Enter Password:",
+  "AddAllowanceButton": "Add Allowance",
+  "SpendAllowanceButton": "Spend Allowance",
+  "ResetDataButton": "Reset Data",
+  "SetPasswordButton": "Set Password",
+  "TotalAllowanceHeading": "Total Allowance",
+  "AllowanceListHeading": "Allowance List"
+}

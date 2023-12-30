@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Server Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #status {
+            font-size: 18px;
+        }
+
+        #players {
+            font-size: 16px;
+        }
+
+        #error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Minecraft Server Status</h1>
+<div id="status">Loading...</div>
+<div id="players"></div>
+<div id="error"></div>
+
+<script>
+    const serverIP = 'squid_smp.aternos.me';
+    const serverPort = '54259';
+
+    const statusElement = document.getElementById('status');
+    const playersElement = document.getElementById('players');
+    const errorElement = document.getElementById('error');
+
+    function checkServerStatus() {
+        fetch(`https://api.aternos.org/api/v1/server/${squid_smp.aternos.me}:${54259}/status`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.online) {
+                    statusElement.textContent = 'Server is Online';
+                    playersElement.textContent = `Players Online: ${data.players}`;
+                } else {
+                    statusElement.textContent = 'Server is Offline';
+                    playersElement.textContent = '';
+                }
+            })
+            .catch(error => {
+                statusElement.textContent = 'Error checking server status';
+                errorElement.textContent = error.message;
+            });
+    }
+
+    // Check server status on page load
+    checkServerStatus();
+
+    // Optionally, you can set up periodic checks (e.g., every minute)
+    setInterval(checkServerStatus, 500); // 60000 milliseconds = 1 minute
+</script>
+
+</body>
+</html>
