@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="htmlTag">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,240 +10,184 @@
             margin: 20px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
+        h1 {
+            text-align: center;
         }
 
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
+        h3 {
+            text-align: center;
+            color: green;
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 5px;
         }
 
         button {
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        #allowanceList {
-            margin-top: 20px;
-        }
-
-        .list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .comment-input {
-            margin-left: 10px;
+            margin: 5px;
         }
     </style>
 </head>
-
 <body>
-    <h1 id="header">Allowance Tracker</h1>
 
-    <label for="amount" id="amountLabel"></label>
-    <input type="number" id="amount" placeholder="">
+<h1>Allowance Tracker</h1>
 
-    <label for="comment" id="commentLabel"></label>
-    <input type="text" id="comment" placeholder="">
+<h3>Total Allowance: <span id="totalDisplay"></span> YEN</h3>
 
-    <label for="password" id="passwordLabel"></label>
-    <input type="password" id="password" placeholder="">
+<form id="amountForm">
+    <label for="amount">Enter Amount:</label>
+    <input type="number" id="amount" required>
+</form>
 
-    <button id="addButton" onclick="addAllowance()"></button>
-    <button id="spendButton" onclick="spendAllowance()"></button>
-    <button id="resetButton" onclick="resetData()"></button>
-    <button id="setPasswordButton" onclick="setPassword()"></button>
-    <button id="languageButton" onclick="toggleLanguage()"></button>
+<form id="commentForm">
+    <label for="comment">Comment:</label>
+    <input type="text" id="comment">
+</form>
 
-    <h2 id="totalAllowanceHeading"></h2>
-    <p id="totalAllowance">¥0.00</p>
+<form id="passwordForm">
+    <label for="password">Set Password:</label>
+    <input type="password" id="password" required>
+</form>
 
-    <h2 id="allowanceListHeading"></h2>
-    <ul id="allowanceList"></ul>
+<button type="button" onclick="addAllowance()">Use Allowance</button>
+<button type="button" onclick="subtractAllowance()">Spend Allowance</button>
+<button type="button" onclick="showSetPasswordDialog()">Set Password</button>
+<button type="button" onclick="confirmResetData()">Reset Data</button>
+<button type="button" onclick="downloadLog()">Download Log</button>
 
-    <script>
-        let totalAllowance = 0;
-        let allowedPassword = localStorage.getItem('password') || ''; // Retrieve password from local storage
-        let passwordSet = allowedPassword !== '';
-        let isJapanese = false;
-        let translations = {}; // Translations will be loaded from a JSON file
+<h3>History Log:</h3>
+<ul id="historyLogList"></ul>
 
-        // Fetch Japanese translations
-        fetch('japanese.json')
-            .then(response => response.json())
-            .then(data => {
-                translations = data;
-                updateUI();
-            })
-            .catch(error => console.error('Error loading Japanese translations:', error));
+<script>
+    let localData = JSON.parse(localStorage.getItem('localData')) || {
+        total: 0,
+        password: null,
+        passwordSet: false,
+        historyLog: []
+    };
 
-        // Function to add allowance
-        function addAllowance() {
-            const amountInput = document.getElementById('amount');
-            const commentInput = document.getElementById('comment');
-            const passwordInput = document.getElementById('password');
+    let total = localData.total;
+    let password = localData.password;
+    let passwordSet = localData.passwordSet;
+    let historyLog = localData.historyLog;
 
-            const amount = parseFloat(amountInput.value);
-            const comment = commentInput.value.trim();
-            const password = passwordInput.value;
+    updateTotalDisplay();
+    updateHistoryLog();
 
-            // Check the password
-            if (!passwordSet || (password !== allowedPassword)) {
-                alert(translations['InvalidPassword']);
-                return;
-            }
+    function updateTotalDisplay() {
+        document.getElementById('totalDisplay').textContent = total;
+    }
 
-            if (isNaN(amount) || amount <= 0) {
-                alert(translations['InvalidAmount']);
-                return;
-            }
+    function updateTotal() {
+        updateTotalDisplay();
+        document.getElementById('amount').value = '';
+        document.getElementById('comment').value = '';
+        document.getElementById('password').value = '';
+    }
 
-            // Add the amount to the total
-            totalAllowance += amount;
+    function addAllowance() {
+        const amount = parseInt(document.getElementById('amount').value) || 0;
+        const comment = document.getElementById('comment').value;
+        total += amount;
+        addToHistoryLog(`Used ${amount} YEN - ${comment}`);
+        updateTotal();
+        saveLocalData();
+    }
 
-            // Update the total allowance in the UI
-            updateTotalAllowance();
+    function subtractAllowance() {
+        const amount = parseInt(document.getElementById('amount').value) || 0;
+        const comment = document.getElementById('comment').value;
+        total -= amount;
+        addToHistoryLog(`Spent ${amount} YEN - ${comment}`);
+        updateTotal();
+        saveLocalData();
+    }
 
-            // Get existing allowances from local storage
-            const allowances = JSON.parse(localStorage.getItem('allowances')) || [];
-
-            // Add new allowance with comment
-            allowances.push({
-                amount,
-                comment
-            });
-
-            // Save updated allowances to local storage
-            localStorage.setItem('allowances', JSON.stringify(allowances));
-
-            // Update the UI
-            updateUI();
-
-            // Display a new item alert
-            alert(translations['NewItemAdded']);
-
-            // Clear the input fields
-            amountInput.value = '';
-            commentInput.value = '';
-            passwordInput.value = '';
+    function setPassword() {
+        const newPassword = prompt("Set Password:");
+        if (newPassword !== null) {
+            password = newPassword;
+            passwordSet = true;
+            alert("Password set successfully!");
         }
+    }
 
-        // Function to spend allowance
-        function spendAllowance() {
-            const amountInput = document.getElementById('amount');
-            const commentInput = document.getElementById('comment');
-            const passwordInput = document.getElementById('password');
-
-            const amount = parseFloat(amountInput.value);
-            const comment = commentInput.value.trim();
-            const password = passwordInput.value;
-
-            // Check the password
-            if (!passwordSet || (password !== allowedPassword)) {
-                alert(translations['InvalidPassword']);
-                return;
-            }
-
-            if (isNaN(amount) || amount <= 0) {
-                alert(translations['InvalidAmount']);
-                return;
-            }
-
-            // Subtract the amount from the total
-            totalAllowance -= amount;
-
-            // Update the total allowance in the UI
-            updateTotalAllowance();
-
-            // Get existing allowances from local storage
-            const allowances = JSON.parse(localStorage.getItem('allowances')) || [];
-
-            // Add a negative amount to represent spending with comment
-            allowances.push({
-                amount: -amount,
-                comment
-            });
-
-            // Save updated allowances to local storage
-            localStorage.setItem('allowances', JSON.stringify(allowances));
-
-            // Update the UI
-            updateUI();
-
-            // Display a new item alert
-            alert(translations['NewItemAdded']);
-
-            // Clear the input fields
-            amountInput.value = '';
-            commentInput.value = '';
-            passwordInput.value = '';
+    function showSetPasswordDialog() {
+        if (!passwordSet) {
+            setPassword();
+            saveLocalData();
+        } else {
+            alert("Password already set. Please use 'Reset Data'.");
         }
+    }
 
-        // Function to reset data (clear allowances and password)
-        function resetData() {
-            const confirmation = confirm(translations['ResetDataConfirmation']);
-            if (confirmation) {
-                localStorage.removeItem('allowances');
-                localStorage.removeItem('password');
-                totalAllowance = 0;
-                allowedPassword = '';
-                passwordSet = false;
-                updateTotalAllowance();
-                updateUI();
-                alert(translations['DataReset']);
-            }
+    function confirmResetData() {
+        const confirmation = confirm("Are you sure you will delete ALL data?");
+        if (confirmation) {
+            resetData();
         }
+    }
 
-        // Function to set or change the password
-        function setPassword() {
-            if (!passwordSet) {
-                const newPassword = prompt(translations['EnterNewPassword']);
-                if (newPassword !== null && newPassword.trim() !== '') {
-                    localStorage.setItem('password', newPassword);
-                    allowedPassword = newPassword;
-                    passwordSet = true;
-                    alert(translations['PasswordSet']);
-                }
-            } else {
-                alert(translations['PasswordAlreadySet']);
-            }
+    function resetData() {
+        total = 0;
+        password = null;
+        passwordSet = false;
+        historyLog = [];
+        saveLocalData();
+        alert("Data reset successfully!");
+        updateHistoryLog();
+        location.reload();
+    }
+
+    function addToHistoryLog(message) {
+        const logEntry = {
+            timestamp: new Date().toLocaleString(),
+            message: message
+        };
+        historyLog.push(logEntry);
+        updateHistoryLog();
+    }
+
+    function updateHistoryLog() {
+        const ul = document.getElementById('historyLogList');
+        ul.innerHTML = '';
+        for (const logEntry of historyLog) {
+            const li = document.createElement('li');
+            li.textContent = `${logEntry.timestamp} - ${logEntry.message}`;
+            ul.appendChild(li);
         }
+    }
 
-        // Function to toggle language
-        function toggleLanguage() {
-            isJapanese = !isJapanese;
-            updateUI();
-            document.getElementById('htmlTag').lang = isJapanese ? 'ja' : 'en';
-        }
+    function downloadLog() {
+        const logContent = historyLog.map(entry => `${entry.timestamp} - ${entry.message}`).join('\n');
+        const blob = new Blob([logContent], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'allowance_log.txt';
+        a.click();
+    }
 
-        // Function to update the total allowance in the UI
-        function updateTotalAllowance() {
-            const totalAllowanceElement = document.getElementById('totalAllowance');
-            totalAllowanceElement.textContent = `¥${totalAllowance.toFixed(2)}`;
-        }
+    function saveLocalData() {
+        localData = {
+            total: total,
+            password: password,
+            passwordSet: passwordSet,
+            historyLog: historyLog
+        };
+        localStorage.setItem('localData', JSON.stringify(localData));
+    }
+</script>
 
-        // Function to update the UI with the current allowances
-        function updateUI() {
-            // Update text content based on translations
-            document.getElementById('amountLabel').textContent = translations['EnterAmountLabel'];
-            document.getElementById('commentLabel').textContent = translations['EnterCommentLabel'];
-            document.getElementById('passwordLabel').textContent = translations['EnterPasswordLabel'];
-
-            document.getElementById('addButton').textContent = translations['AddAllowanceButton'];
-            document.getElementById('spendButton').textContent = translations['SpendAllowanceButton'];
-            document.getElementById('resetButton').textContent = translations['ResetDataButton'];
-            document.getElementById('setPasswordButton').textContent = translations['SetPasswordButton'];
-            document.getElementById('languageButton').textContent = isJapanese ? 'English' : '日本語';
-
-            document.getElementById('totalAllowanceHeading').textContent = translations['TotalAllowanceHeading'];
-            document.getElementById('allowanceListHeading').textContent = translations['AllowanceListHeading'];
-        }
-    </script>
 </body>
-
 </html>
