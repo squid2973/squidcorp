@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+</head>
+<body>
+    <h1>Vocabulary Quiz</h1>
+
+    <!-- File input for importing vocabulary list -->
+<h3></h3>
+
+    <!-- Button to start the quiz -->
+    <button onclick="startQuiz()">Start Quiz</button><br><br>
+
+    <!-- Container for quiz -->
+    <div id="quizContainer" style="display: none;">
+        <h2 id="definition"></h2>
+        <div id="optionsContainer"></div>
+        <p id="result"></p>
+        <button onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <!-- Container for managing custom vocabulary list -->
+    <div id="customListContainer">
+
+    </div>
+
+    <script>
+        let vocabularyData = {};
+
+        // Function to load default vocabulary list from external file
+        function loadDefaultVocabulary() {
+            fetch('default_list.json')
+                .then(response => response.json())
+                .then(data => {
+                    vocabularyData = data;
+                    console.log('Default vocabulary data loaded:', vocabularyData);
+                })
+                .catch(error => {
+                    console.error('Error loading default vocabulary data:', error);
+                });
+        }
+
+        // Event listener for importing vocabulary from JSON file
+        document.getElementById('jsonFile').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                try {
+                    vocabularyData = JSON.parse(e.target.result);
+                    console.log('Vocabulary data loaded:', vocabularyData);
+                } catch(error) {
+                    console.error('Error parsing JSON file:', error);
+                }
+            };
+
+            reader.readAsText(file);
+        });
+
+        // Function to start the quiz
+        function startQuiz() {
+            if (Object.keys(vocabularyData).length === 0) {
+                alert("Please import a JSON file containing vocabulary or enter your custom list.");
+                return;
+            }
+
+            document.getElementById('quizContainer').style.display = 'block';
+            nextQuestion();
+        }
+
+        // Function to display the next question
+        function nextQuestion() {
+            const words = Object.keys(vocabularyData);
+            const randomWord = words[Math.floor(Math.random() * words.length)];
+            const correctWord = randomWord;
+            const definition = vocabularyData[randomWord];
+            document.getElementById('definition').textContent = definition;
+            document.getElementById('result').textContent = '';
+
+            const options = generateOptions(correctWord);
+            document.getElementById('optionsContainer').innerHTML = options;
+        }
+
+        // Function to generate multiple-choice options
+        function generateOptions(correctWord) {
+            const allWords = Object.keys(vocabularyData);
+            const shuffledWords = shuffle(allWords).slice(0, 3);
+            const options = shuffledWords.map(word => {
+                return `<button onclick="checkGuess('${word}', '${correctWord}')">${word}</button>`;
+            });
+            options.push(`<button onclick="checkGuess('${correctWord}', '${correctWord}')">${correctWord}</button>`);
+            return options.join('');
+        }
+
+        // Function to shuffle an array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to check the user's guess
+        function checkGuess(guess, correctWord) {
+            if (guess === correctWord) {
+                document.getElementById('result').textContent = 'Correct!';
+            } else {
+                document.getElementById('result').textContent = `Incorrect! The correct word is '${correctWord}'.`;
+            }
+        }
+
+        // Function to import custom vocabulary list from text area
+        function importCustomList() {
+            const customList = document.getElementById('customList').value.trim();
+            try {
+                vocabularyData = JSON.parse(customList);
+                console.log('Custom vocabulary list imported:', vocabularyData);
+            } catch(error) {
+                alert('Invalid JSON format for custom list!');
+            }
+        }
+
+        // Function to export custom vocabulary list
+        function exportCustomList() {
+            const customList = JSON.stringify(vocabularyData);
+            const blob = new Blob([customList], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'custom_vocab.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Function to clear custom vocabulary list
+        function clearCustomList() {
+            vocabularyData = {};
+            document.getElementById('customList').value = '';
+        }
+
+        // Load default vocabulary when the page loads
+        loadDefaultVocabulary();
+    </script>
+</body>
+</html>

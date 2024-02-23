@@ -77,3 +77,26 @@ Summary:
             /squid_portal.html
 Comments:
 JET lag is kinda mild.
+
+    v.0.4.1
+timestamp: 20:49 2/22/2024 PST
+  local disk save: true
+      github push: true
+FTP server update: true
+Summary:
+    Directory
+        [None]
+    Files
+        New Files
+            /default_list.json
+            /vocab_quiz.html
+        Deleted Files
+            /tracker.html
+            /translations.json
+            /status.html
+        Renamed Files
+            [None]
+        Edited Files
+            /update_log.txt
+Comments:
+Launch Tomorrow! Happy Happy Happy!
