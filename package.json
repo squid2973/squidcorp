@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@novnc/novnc": "^1.4.0"
+  }
+}
