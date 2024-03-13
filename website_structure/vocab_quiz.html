@@ -8,8 +8,8 @@
 <body>
     <h1>Vocabulary Quiz</h1>
 
-    <!-- File input for importing vocabulary list -->
-<h3></h3>
+    <!-- Input for importing vocabulary list -->
+    <input type="file" id="jsonFile"><br><br>
 
     <!-- Button to start the quiz -->
     <button onclick="startQuiz()">Start Quiz</button><br><br>
@@ -24,7 +24,10 @@
 
     <!-- Container for managing custom vocabulary list -->
     <div id="customListContainer">
-
+        <textarea id="customList"></textarea><br>
+        <button onclick="importCustomList()">Import Custom List</button>
+        <button onclick="exportCustomList()">Export Custom List</button>
+        <button onclick="clearCustomList()">Clear Custom List</button>
     </div>
 
     <script>
@@ -42,23 +45,6 @@
                     console.error('Error loading default vocabulary data:', error);
                 });
         }
-
-        // Event listener for importing vocabulary from JSON file
-        document.getElementById('jsonFile').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                try {
-                    vocabularyData = JSON.parse(e.target.result);
-                    console.log('Vocabulary data loaded:', vocabularyData);
-                } catch(error) {
-                    console.error('Error parsing JSON file:', error);
-                }
-            };
-
-            reader.readAsText(file);
-        });
 
         // Function to start the quiz
         function startQuiz() {
