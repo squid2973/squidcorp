@@ -3,13 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary Quiz</title>
+    <!-- Navigation Bar (Required for all pages) -->
+<title>Squid Portal | Squid Corp</title>
+<h1 id="title1">
+    <center>Squid Portal</center>
+</h1>
+<p id="caption1">Access All Apps From <i>Squid Services</i></p>
+<hr>
+<center>
+    <button onclick="window.location.href='/Chatroom/index.html';">
+        Chatroom
+    </button>
+    <button onclick="window.location.href='update_log.txt';">
+        Changelog
+    </button>
+    <button onclick="window.location.href='/vocab_quiz.html';">
+        Vocab Quiz
+    </button>
+</center>
+<hr>
+<!-- Copy Until Here -->
 </head>
 <body>
     <h1>Vocabulary Quiz</h1>
-
-    <!-- Input for importing vocabulary list -->
-    <input type="file" id="jsonFile"><br><br>
+    <h3>Weekly Vocabulary</h3>
+    <h4>From <a href="https://www.amazon.com/City-Ember-First-Book/dp/0375822747">City of Ember (Amazon)</a> Week 7</h4>
+    <h3>Click "Start Quiz to start quiz!"</h3>
 
     <!-- Button to start the quiz -->
     <button onclick="startQuiz()">Start Quiz</button><br><br>
@@ -22,13 +41,6 @@
         <button onclick="nextQuestion()">Next Question</button>
     </div>
 
-    <!-- Container for managing custom vocabulary list -->
-    <div id="customListContainer">
-        <textarea id="customList"></textarea><br>
-        <button onclick="importCustomList()">Import Custom List</button>
-        <button onclick="exportCustomList()">Export Custom List</button>
-        <button onclick="clearCustomList()">Clear Custom List</button>
-    </div>
 
     <script>
         let vocabularyData = {};
