@@ -1,27 +1,27 @@
 v.0.2.3
-timestamp: 22:09 12/6/2023 PST
+timestamp: 12/6/2023 PST
   local disk save: true
       github push: true
 FTP server update: true
 Summary:
-(N/A)
+(N\A)
 Comments:
 I got COVID-19. And it sucks. Nawwww
 
 
 v.0.2.4
-timestamp: 12:13 12/7/2023 PST
+timestamp: 12/7/2023 PST
   local disk save: true
       github push: true
 FTP server update: true
 Summary:
-(N/A)
+(N\A)
 Comments:
 Lego Fortnite is Good!!!!!! Still got COVID,,,
 
 
 v.0.3.1
-timestamp: 22:55 12/26/2023 PST
+timestamp: 12/26/2023 PST
   local disk save: true
       github push: true
 FTP server update: true
@@ -32,54 +32,54 @@ Comments:
     
     
 v.0.3.2
-timestamp: 12:08 12/27/2023 PST
+timestamp: 12/27/2023 PST
   local disk save: true
       github push: false
 FTP server update: false
 Summary:
     Directory
-        Added /squid_smp
+        Added \squid_smp
     Files
         New Files
-            /squid_smp/application.html
-            /squid_smp/members.html
-            /squid_smp/more_info.html
-            /squid_smp/index.html
-            /wip.html
+            \squid_smp\application.html
+            \squid_smp\members.html
+            \squid_smp\more_info.html
+            \squid_smp\index.html
+            \wip.html
         Deleted Files
-            /squid_smp/server-status.html
-            /squid_smp/styles.css
-            /squid_smp/script.js
+            \squid_smp\server-status.html
+            \squid_smp\styles.css
+            \squid_smp\script.js
         Renamed Files
             [None]
         Edited Files
-            /squid_portal.html
+            \squid_portal.html
 Comments:
     Going to Japan in 1 day! Still excited, but the packing, cleaning, and putting away the Christmas Tree is tireing. (Is that how you spell it?)
     
     v.0.3.3
-timestamp: 9:01 12/30/2023 JST
+timestamp: 12/30/2023 JST
   local disk save: true
       github push: true
 FTP server update: true
 Summary:
     Directory
-        Added /squid_smp
+        Added \squid_smp
     Files
         New Files
-            /tracker.html
-            /japanese.json
+            \tracker.html
+            \japanese.json
         Deleted Files
             [None]
         Renamed Files
             [None]
         Edited Files
-            /squid_portal.html
+            \squid_portal.html
 Comments:
 JET lag is kinda mild.
 
     v.0.4.1
-timestamp: 20:49 2/22/2024 PST
+timestamp: 2/22/2024 PST
   local disk save: true
       github push: true
 FTP server update: true
@@ -88,15 +88,41 @@ Summary:
         [None]
     Files
         New Files
-            /default_list.json
-            /vocab_quiz.html
+            \default_list.json
+            \vocab_quiz.html
         Deleted Files
-            /tracker.html
-            /translations.json
-            /status.html
+            \tracker.html
+            \translations.json
+            \status.html
         Renamed Files
             [None]
         Edited Files
-            /update_log.txt
+            \update_log.txt
 Comments:
 Launch Tomorrow! Happy Happy Happy!
+
+
+    v.1.1.0
+timestamp: 4/28 PST
+  local disk save: true
+      github push: true
+FTP server update: true
+Summary:
+    Directory
+        [None]
+    Files
+        New Files
+            \vocab_quiz
+            \vocab_quiz\index.html
+            \vocab_quiz\index.css
+            \vocab_quiz\default_list.json
+
+        Deleted Files
+            \default_list.json
+        Renamed Files
+            [None]
+        Edited Files
+            \update_log.txt
+            \vocab_quiz.html
+Comments:
+Finally Release, but still more to add!

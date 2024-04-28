@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squid Portal | Squid Corp</title>
+    <style>
+        .correct {
+            background-color: lightgreen;
+        }
+        .incorrect {
+            background-color: lightcoral;
+        }
+    </style>
+<!-- Navigation Bar (Required for all pages) -->
+<title>Squid Portal | Squid Corp</title>
+<h1 id="title1">
+    <center>Squid Portal</center>
+</h1>
+<p id="caption1">Access All Apps From <i>Squid Services</i></p>
+<hr>
+<center>
+    <button onclick="window.location.href='/';">
+        Home
+    </button>
+    <button onclick="window.location.href='/Chatroom/index.html';">
+        Chatroom
+    </button>
+    <button onclick="window.location.href='/update_log.txt';">
+        Changelog
+    </button>
+    <button onclick="window.location.href='/vocab_quiz.html';">
+        Vocab Quiz
+    </button>
+</center>
+<hr>
+<!-- Copy Until Here -->
+    <h1>Vocabulary Quiz</h1>
+    <p>Last Update: <pre>4/28/2024</pre></p>
+    <h4>From <a href="https://www.amazon.com/Hoot-Carl-Hiaasen/dp/0375821813/ref=asc_df_0375821813/?tag=hyprod-20&linkCode=df0&hvadid=312735752321&hvpos=&hvnetw=g&hvrand=2316585807462627392&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1013962&hvtargid=pla-570432387504&psc=1&mcid=c8fefb978cb6333abe552ed78d4d58d5&tag=&ref=&adgrpid=69091066224&hvpone=&hvptwo=&hvadid=312735752321&hvpos=&hvnetw=g&hvrand=2316585807462627392&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1013962&hvtargid=pla-570432387504&gclid=CjwKCAjw57exBhAsEiwAaIxaZu5vcuNxY9FWgqww-wqJ6N5l_rWyfLpUMB6_RBfiBAe9dWokuoOf9BoC-GwQAvD_BwE">Hoot</a> Week 4</h4>
+    <div id="startQuizSection">
+        <h3>Click "Start Quiz" to start the quiz!</h3>
+        <!-- Button to start the quiz -->
+        <button onclick="startQuiz()">Start Quiz</button><br><br>
+    </div>
+
+    <!-- Container for quiz -->
+    <div id="quizContainer" style="display: none;">
+        <h2 id="questionNumber"></h2> <!-- Move question number here -->
+        <h2 id="definition"></h2>
+        <div id="optionsContainer"></div>
+        <p id="result"></p>
+    </div>
+
+    <!-- Finish screen -->
+    <div id="finishScreen" style="display: none;">
+        <h2>Quiz Completed!</h2>
+        <p>Your accuracy: <span id="accuracy"></span></p>
+    </div>
+
+    <script>
+        let vocabularyData = {};
+        let currentWordIndex = 0;
+        let correctAnswersCount = 0;
+        let totalQuestions = 0;
+
+        // Function to load default vocabulary list from external file
+        function loadDefaultVocabulary() {
+            fetch('default_list.json')
+                .then(response => response.json())
+                .then(data => {
+                    vocabularyData = data;
+                    console.log('Default vocabulary data loaded:', vocabularyData);
+                })
+                .catch(error => {
+                    console.error('Error loading default vocabulary data:', error);
+                });
+        }
+
+        // Function to start the quiz
+        function startQuiz() {
+            if (Object.keys(vocabularyData).length === 0) {
+                alert("Please import a JSON file containing vocabulary or enter your custom list.");
+                return;
+            }
+
+            document.getElementById('startQuizSection').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            currentWordIndex = 0;
+            correctAnswersCount = 0;
+            totalQuestions = Object.keys(vocabularyData).length;
+            nextQuestion();
+        }
+
+        // Function to display the next question
+        function nextQuestion() {
+            const words = Object.keys(vocabularyData);
+            if (currentWordIndex >= totalQuestions) {
+                showFinishScreen();
+                return;
+            }
+
+            document.getElementById('questionNumber').textContent = `Question ${currentWordIndex + 1} of ${totalQuestions}`;
+
+            const currentWord = words[currentWordIndex];
+            const definition = vocabularyData[currentWord];
+            document.getElementById('definition').textContent = definition;
+            document.getElementById('result').textContent = '';
+
+            const options = generateOptions(currentWord);
+            document.getElementById('optionsContainer').innerHTML = options;
+
+            currentWordIndex++;
+        }
+
+        // Function to generate multiple-choice options
+        function generateOptions(correctWord) {
+            const allWords = Object.keys(vocabularyData);
+            const shuffledWords = shuffle(allWords).slice(0, 3);
+            shuffledWords.push(correctWord); // Ensure correct word is included
+            const options = shuffledWords.map(word => {
+                return `<button onclick="checkGuess('${word}', '${correctWord}', this)">${word}</button>`;
+            });
+            return options.join('');
+        }
+
+        // Function to shuffle an array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to check the user's guess
+        function checkGuess(guess, correctWord, button) {
+            if (guess === correctWord) {
+                document.getElementById('result').textContent = 'Correct!';
+                button.classList.add('correct');
+                correctAnswersCount++;
+            } else {
+                document.getElementById('result').textContent = `Incorrect! The correct word is '${correctWord}'.`;
+                button.classList.add('incorrect');
+            }
+
+            button.disabled = true; // Disable buttons after answer
+            setTimeout(nextQuestion, 1000); // Move to the next question after 1 second
+        }
+
+        // Function to show finish screen
+        function showFinishScreen() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('finishScreen').style.display = 'block';
+            const accuracy = ((correctAnswersCount / totalQuestions) * 100).toFixed(2);
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
+            document.getElementById('startQuizSection').style.display = 'block';
+        }
+
+        // Load default vocabulary when the page loads
+        loadDefaultVocabulary();
+    </script>
+</body>
+</html>
