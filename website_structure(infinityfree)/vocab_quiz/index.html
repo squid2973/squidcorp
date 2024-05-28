@@ -12,6 +12,8 @@
             background-color: lightcoral;
         }
     </style>
+</head>
+<body>
 <!-- Navigation Bar (Required for all pages) -->
 <h1 id="title1">
     <center>Squid Portal</center>
@@ -117,9 +119,9 @@
         // Function to generate multiple-choice options
         function generateOptions(correctWord) {
             const allWords = Object.keys(vocabularyData);
-            const shuffledWords = shuffle(allWords).slice(3, 0);
+            const shuffledWords = shuffle(allWords).slice(0, 3); // Corrected slicing logic
             shuffledWords.push(correctWord); // Ensure correct word is included
-            const options = shuffledWords.map(word => {
+            const options = shuffle(shuffledWords).map(word => { // Shuffle options to randomize
                 return `<button onclick="checkGuess('${word}', '${correctWord}', this)">${word}</button>`;
             });
             return options.join('');
