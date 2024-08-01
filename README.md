@@ -1,3 +1,5 @@
 Released Feb 25 2024
 
-https://squid-corp.000webhostapp.com/
+https://immensely-amused-walrus.ngrok-free.app
+
+Hosted Through: Ngrok

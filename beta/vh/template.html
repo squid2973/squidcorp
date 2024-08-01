@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            body,
+            html {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+            }
+            header {
+                background-color: #333;
+                color: #fff;
+                padding: 20px;
+                text-align: center;
+            }
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px;
+            }
+            nav a {
+                color: #ffffff;
+                background-color: #4caf50;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 10px;
+                transition: background-color 0.3s;
+            }
+            nav a:hover {
+                background-color: #666;
+            }
+            menu {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px;
+                text-align: center;
+            }
+            menu a {
+                text-decoration: none;
+                color: #000000;
+                padding: 10px 20px;
+            }
+            menu a:hover {
+                background-color: darkgray;
+            }
+            h2 {
+                text-align: center;
+                margin: 20px 0;
+            }
+            video {
+                display: block;
+                margin: 0 auto;
+                max-width: 100%;
+                height: auto;
+            }
+            @media (max-width: 600px) {
+                header {
+                    font-size: 18px;
+                    padding: 10px;
+                }
+                nav a,
+                menu a {
+                    padding: 8px 15px;
+                    font-size: 14px;
+                }
+                h2 {
+                    font-size: 20px;
+                    margin: 15px 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Squid Portal</h1>
+            <p>Access All Apps From <i>Squid Services</i></p>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/vh/index.html">Video Hub</a>
+                <a href="/Chatroom/index.html">Chatroom</a>
+                <a href="/update_log.txt">Changelog</a>
+                <a href="/vocab_quiz/index.html">Vocab Quiz</a>
+            </nav>
+        </header>
+
+        <h2>Video Hub: The Safe Video Sharing Platform</h2>
+
+        <menu>
+            <a href="/vh/pages/menu/newly_uploaded.html">Newly Uploaded</a>
+            <a href="/vh/pages/menu/channels.html">Channels</a>
+            <a href="/vh/pages/creatorhub/register.html">Create A Channel</a>
+        </menu>
+
+    </body>
+</html>

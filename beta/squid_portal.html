@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Free online apps in your Browser" />
+    <meta name="keywords" content="Squid Corp, Pistachio Dudes, Squid Shop, Lemon Cat Corp" />
+    <meta name="author" content="Squid Devs" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Squid Corp. Home</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .marquee-container {
+            overflow: hidden;
+            position: relative;
+            background-color: #444;
+            color: #fff;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .marquee-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+            font-size: 1.2em;
+            line-height: 40px;
+        }
+        .marquee-text span {
+            display: inline-block;
+        }
+        .marquee-text span:last-child {
+            margin-left: 40px; /* Space between the two instances */
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px 10px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        header p {
+            margin: 5px 0;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        nav button:hover {
+            background-color: #45a049;
+        }
+        main {
+            padding: 20px;
+        }
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+            nav button {
+                padding: 10px;
+                width: 100%;
+                box-sizing: border-box;
+                margin: 5px 0;
+            }
+            .marquee-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="marquee-container">
+        <div class="marquee-text">
+            <span>Welcome to Squid Portal! Check out our latest feature: Vocab Quiz! More updates coming soon!</span>
+            <span>Welcome to Squid Portal! Check out our latest feature: Vocab Quiz! More updates coming soon!</span>
+        </div>
+    </div>
+    <header>
+        <h1>Squid Portal</h1>
+        <p>Access All Apps From <i>Squid Services</i></p>
+    </header>
+    <nav>
+        <button onclick="window.location.href='/';">Home</button>
+        <button onclick="window.location.href='/vh/index.html';">Video Hub</button>
+        <button onclick="window.location.href='/Chatroom/index.html';">Chatroom</button>
+        <button onclick="window.location.href='/update_log.txt';">Changelog</button>
+        <button onclick="window.location.href='/vocab_quiz/index.html';">Vocab Quiz</button>
+    </nav>
+    <main>
+        <h1>New Feature: Vocab Quiz</h1>
+        <p>
+            Now, we have a new application, the vocab quiz. As of now, the vocab list is only the default list. Until
+            [the developer] has enough energy to add that feature, for all custom lists,
+            <a href="mailto:sotaoikawa810@gmail.com">email the dev.</a>
+        </p>
+    </main>
+</body>
+</html>

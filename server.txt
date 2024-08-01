@@ -1,0 +1,5 @@
+Stop Server:
+sudo service apache2 stop
+
+Start Server:
+sudo service apache2 start

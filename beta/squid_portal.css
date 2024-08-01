@@ -4,6 +4,7 @@
 
 #title1 {
     size: 150px;
+    text-align: center;
     font-size: 50px;
     font-family: "Lucida Console", "Courier New", monospace;
 }
